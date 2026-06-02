@@ -1,18 +1,21 @@
 const API_URL =
- "hƩp://localhost:3000/books";
+ "http://localhost:3000/books";
 loadBooks();
+
 function loadBooks() {
  fetch(API_URL)
  .then(response => response.json())
  .then(data => {
+
  const bookList =
  document.getElementById("bookList");
  bookList.innerHTML = "";
+ 
  data.forEach(book => {
  bookList.innerHTML += `
  <div class="book-card">
- <img src="${book.image}">
- <h3>${book.Ɵtle}</h3>
+ <img src="${book.image}" alt="${book.title}">
+ <h3>${book.title}</h3>
  <p>
  Author:
  ${book.author}
@@ -24,16 +27,17 @@ function loadBooks() {
  <p>
  $${book.price}
  </p>
- <buƩon
+ <button
  class="delete-btn"
  onclick="deleteBook(${book.id})">
  Delete
- </buƩon>
+ </button>
  </div>
  `;
  });
  });
  }
+
 function addBook() {
  const book = {
   title:
@@ -51,7 +55,7 @@ function addBook() {
  method: "POST",
  headers: {
  "Content-Type":
- "applicaƟon/json"
+ "application/json"
  },
  body: JSON.stringify(book)
  })
@@ -60,6 +64,7 @@ function addBook() {
  loadBooks();
  });
 }
+
 function deleteBook(id) {
  fetch(
  `${API_URL}/${id}`,
@@ -72,12 +77,11 @@ function deleteBook(id) {
  loadBooks();
  });
 }
+
 function searchBooks() {
  const keyword =
  document.getElementById("search").value;
- fetch(
- `hƩp://localhost:3000/books/search/${keyword}`
- )
+ fetch(`${API_URL}/search/${keyword}`)
  .then(response => response.json())
  .then(data => {
  const bookList =
@@ -86,7 +90,7 @@ function searchBooks() {
  data.forEach(book => {
  bookList.innerHTML += `
  <div class="book-card">
- <img src="${book.image}">
+ <img src="${book.image}" alt="${book.title}">
  <h3>${book.title}</h3>
  <p>${book.author}</p>
  <p>$${book.price}</p>
