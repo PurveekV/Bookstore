@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bookstore</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+<header>
+    <h1>Online Bookstore</h1>
+</header>
+
+<div class ="Container">
+    <div class=""Search">
+    <input type="text" id ="search" placeholder="Search for books...">
+    <button onclick=""searchBooks()"">Search</button>   
+    </div>
+
+    <div class="add books">
+        <h2>Add Books</h2>
+        <input id="title" placeholder="Title">
+        <input id="author" placeholder="Author">
+        <input id="price" placeholder="Price">
+        <input id="category" placeholder="Category">
+        <input id="image" placeholder="Image URL">
+        <button onclick="addBook()">
+        Add Book
+        </button>
+    </div>
+    
+    <div id="booklist"></div>
+</div>
+<script src ="script.js"></script>
+
+
+
+</body>
+</html>
