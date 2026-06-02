@@ -35,10 +35,10 @@ app.post('/books', (req, res) => {
         author,
         price,
         category,
-        iamge
+        image
     } = req.body;
 
-    db.query('INSERT INTO books (title, author, price, category, iamge) VALUES (?, ?, ?, ?, ?)', [title, author, price, category, iamge], (err, results) => {
+    db.query('INSERT INTO books (title, author, price, category, image) VALUES (?, ?, ?, ?, ?)', [title, author, price, category, image], (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Database query failed' });
         }
@@ -49,7 +49,7 @@ app.post('/books', (req, res) => {
 /* DELETE A BOOK */
 app.delete('/books/:id', (req, res) => {
 
-    db.query('DELETE FROM books WHERE id = ?', [req.params.id], (err, results) => {
+    db.query('DELETE FROM books WHERE books_id = ?', [req.params.id], (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Database query failed' });
         }

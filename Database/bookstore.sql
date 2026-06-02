@@ -1,40 +1,48 @@
-create database bookstore; #created database
+#create database bookstore; #created database
 use bookstore; #using bookstore database
 
-# creating a table in database
+create table authors (
+author_id int primary key auto_increment,
+name varchar(255) );
 
 create table books (
 books_id int primary key auto_increment,
+author_id int,
 title varchar(255),
-author varchar(255),
-price decimal (10,2),
+price decimal(10,2),
 category varchar(100),
-image varchar(500)
+image varchar(255),
+foreign key (author_id) references authors(author_id)
 );
 
-#insert data
+insert into authors (name)
+values
+('John Smith'),
+('David Brown'),
+('Sarah Wilson');
 
-insert into books (title,author,price,category,image)
+
+insert into books (title,price,category,image,author_id)
 values
 (
 'Node.js Guide',
-'John Smith',
 29.99,
 'Programming',
-'hƩps://picsum.photos/200/300'
+'Images/NodeJS-guide.jpg',
+1
 ),
 (
 'JavaScript Mastery',
-'David Brown',
 34.99,
 'Programming',
-'hƩps://picsum.photos/200/301'
+'Images/JavaScript-Mastery.jpg',
+2
 ),
 (
 'CSS Design',
-'Sarah Wilson',
 19.99,
 'Web Design',
-'hƩps://picsum.photos/200/302'
+'Images/CSS-Design.jpg',
+3
 );
 
