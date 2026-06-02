@@ -14,11 +14,11 @@ function loadBooks() {
  data.forEach(book => {
  bookList.innerHTML += `
  <div class="book-card">
- <img src="${book.image}" alt="${book.title}">
+ <img src="http://localhost:3000/images/${book.image}" alt="${book.title}">
  <h3>${book.title}</h3>
  <p>
  Author:
- ${book.author}
+ ${book.author_name}
  </p>
  <p>
  Category:
@@ -43,7 +43,7 @@ function addBook() {
   title:
  document.getElementById("title").value,
  author:
- document.getElementById("author").value,
+ document.getElementById("author_name").value,
  price:
  document.getElementById("price").value,
  category:
@@ -92,7 +92,7 @@ function searchBooks() {
  <div class="book-card">
  <img src="${book.image}" alt="${book.title}">
  <h3>${book.title}</h3>
- <p>${book.author}</p>
+ <p>${book.author_name}</p>
  <p>$${book.price}</p>
  </div>
  `;
