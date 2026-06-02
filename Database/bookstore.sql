@@ -15,6 +15,15 @@ image varchar(255),
 foreign key (author_id) references authors(author_id)
 );
 
+
+select b.title, b.price, b.category, b.image, a.name
+from books b
+join authors a on b.author_id = a.author_id;
+
+
+
+
+
 insert into authors (name)
 values
 ('John Smith'),
@@ -45,4 +54,10 @@ values
 'Images/CSS-Design.jpg',
 3
 );
+
+update  books
+set image = 'Images/CSS-Design.jpg'
+where image = 'Images/Book3.jpg';
+
+select * from books;
 
