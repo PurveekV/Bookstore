@@ -4,7 +4,7 @@ const cors = require('cors');
 const db = require('./db');
 
 const app = express();
-app.use('/images', express.static(path.join(__dirname, 'Database/images')));
+app.use('/images', express.static(path.join(__dirname, '../images')));
 app.use(cors());
 app.use(express.json());
 
@@ -26,7 +26,7 @@ app.get('/books', async (req, res) => {
             }
             const books = results.map(book => ({
                 ...book,
-                image: `http://localhost:3000/images/${book.image}`
+                image: `${book.image}`
             }));
 
             res.json(books);
@@ -36,8 +36,18 @@ app.get('/books', async (req, res) => {
 /* SEARCH BOOKS */
 app.get('/books/search/:keyword', (req, res) => {
     const keyword = `%${req.params.keyword}%`;
-
-    db.query('SELECT * FROM books WHERE title LIKE ? OR authors LIKE ?', [keyword, keyword], (err, results) => {
+    db.query(
+        `SELECT 
+            b.title, 
+            a.name as author_name,
+            b.price,
+            b.category,
+            b.image
+         from books b
+         join authors a on a.author_id = b.author_id
+         where b.title LIKE ? OR a.name LIKE ?`, 
+            [keyword, keyword], 
+            (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Database query failed' });
         }
@@ -55,7 +65,24 @@ app.post('/books', (req, res) => {
         image
     } = req.body;
 
-    db.query('INSERT INTO books (title, author_id, price, category, image) VALUES (?, ?, ?, ?, ?)', [title, author_name, price, category, image], (err, results) => {
+    /* Check if the author already exists */
+    db.query('SELECT author_id FROM authors WHERE name = ?', [author_name], (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: 'Database query failed' });
+        }
+        let author_id;
+        if (results.length > 0) {
+            author_id = results[0].author_id;
+        } else {
+            /* If the author doesn't exist, insert the author first */
+            db.query('INSERT INTO authors (name) VALUES (?)', [author_name], (err, result) => {
+                if (err) {
+                    return res.status(500).json({ error: 'Database query failed' });
+                }
+                author_id = result.insertId;
+            });
+        }
+    db.query('INSERT INTO books (title, author_id, price, category, image) VALUES (?, ?, ?, ?, ?)', [title, author_id, price, category, image], (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Database query failed' });
         }
