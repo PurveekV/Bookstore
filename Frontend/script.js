@@ -81,6 +81,12 @@ function deleteBook(id) {
 function searchBooks() {
  const keyword =
  document.getElementById("search").value;
+ /* Prompt user to enter a search keyword if the input is empty */
+ if (!keyword) {
+     document.getElementById("searchError").textContent = "Please enter a search keyword.";
+    loadBooks();
+    return;
+    }
  fetch(`${API_URL}/search/${keyword}`)
  .then(response => response.json())
  .then(data => {
@@ -90,7 +96,7 @@ function searchBooks() {
  data.forEach(book => {
  bookList.innerHTML += `
  <div class="book-card">
- <img src="${book.image}" alt="${book.title}">
+ <img src="http://localhost:3000/images/${book.image}" alt="${book.title}">
  <h3>${book.title}</h3>
  <p>${book.author_name}</p>
  <p>$${book.price}</p>
